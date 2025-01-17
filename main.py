@@ -16,6 +16,9 @@ def main():
     # Get a new GUI window
     screen = pygame.display.set_mode( (SCREEN_WIDTH, SCREEN_HEIGHT) )
 
+    clock = pygame.time.Clock()
+    dt = 0   # delta time
+
     while True:
         # Event loop
         for event in pygame.event.get():
@@ -27,6 +30,12 @@ def main():
 
         # Refresh the screen
         pygame.display.flip()
+        
+        # Pause for 1/60 of a second.
+        # The .tick() method returns the amount in milliseconds since the
+        # last time .tick() was called. Convert it into seconds.
+        dt = clock.tick(60) / 1000
+
 
 if __name__ == "__main__":
     main()
