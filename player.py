@@ -34,8 +34,7 @@ class Player(CircleShape):
         if keys[pygame.K_s]:
             self.move(-dt)
         if keys[pygame.K_SPACE]:
-            if self.shoot_cooldown <= 0:
-                self.shoot()
+            self.shoot()
     
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
@@ -45,6 +44,8 @@ class Player(CircleShape):
         self.position += forward * PLAYER_SPEED * dt
 
     def shoot(self):
+        if self.shoot_cooldown > 0:
+            return
         self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         # Start the shot at the nose of the ship.

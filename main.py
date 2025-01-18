@@ -14,7 +14,7 @@ def main():
     print(f"Screen height: {SCREEN_HEIGHT}")
 
     # Initialize pygame
-    pygame.get_init()
+    pygame.init()
     
     # Get a new GUI window
     screen = pygame.display.set_mode( (SCREEN_WIDTH, SCREEN_HEIGHT) )
@@ -59,7 +59,7 @@ def main():
         # Fill screen with solid black
         screen.fill("black")
 
-        # Draw all items that are in the group.
+        # Draw items
         for item in drawable:
             item.draw(screen)
 
@@ -71,27 +71,25 @@ def main():
         # last time .tick() was called. Convert that value into seconds.
         dt = clock.tick(60) / 1000
 
-        # Update all items that are in the group.
+        # Update items
         for item in updatable:
             item.update(dt)
 
-        # Check for collisions between asteroids and shots
-        collision = False
-        for item in asteroids:
-            for shot in shots:
-                collision = item.collision(shot)
-                if collision:
-                    shot.kill()
-                    item.split()
-                    break
-            if collision:
-                break
-
-        # Check for collisions between asteroids and player
-        for item in asteroids:
-            if item.collision(player):
+        for asteroid in asteroids:
+            # Check for collisions between asteroids and player
+            if asteroid.collision(player):
                 print("Game over!")
                 game_over = True
+                break
+            # Check for collisions between asteroids and shots
+            collision = False
+            for shot in shots:
+                if asteroid.collision(shot):
+                    collision = True
+                    shot.kill()
+                    asteroid.split()
+                    break
+            if collision:
                 break
 
     pygame.quit()
