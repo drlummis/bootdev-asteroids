@@ -2,7 +2,7 @@
 # the open-source pygame library
 # throughout this file
 import pygame
-
+from player import Player
 from constants import *
 
 def main():
@@ -19,6 +19,10 @@ def main():
     clock = pygame.time.Clock()
     dt = 0   # delta time
 
+    x = SCREEN_WIDTH / 2
+    y = SCREEN_HEIGHT / 2
+    player = Player(x, y)
+
     while True:
         # Event loop
         for event in pygame.event.get():
@@ -27,6 +31,8 @@ def main():
 
         # Fill screen with solid black
         screen.fill("black")
+
+        player.draw(screen)
 
         # Refresh the screen
         pygame.display.flip()
