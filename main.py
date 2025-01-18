@@ -3,6 +3,8 @@
 # throughout this file
 import pygame
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 from constants import *
 
 def main():
@@ -19,14 +21,23 @@ def main():
     clock = pygame.time.Clock()
     dt = 0   # delta time
 
+    # Create groups that will contain created objects.
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
 
+    # When created an object will be added to each group in its containers.
+    Player.containers = (updatable, drawable)
+    Asteroid.containers = (updatable, drawable, asteroids)
+    AsteroidField.containers = (updatable)
+
+    # Create an asteroid field.
+    asteroid_field = AsteroidField()
+
+    # Create a player
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
-    updatable.add(player)
-    drawable.add(player)
 
     while True:
         # Event loop
@@ -37,21 +48,21 @@ def main():
         # Fill screen with solid black
         screen.fill("black")
 
-        # Draw the player
-        for player in updatable:
-            player.draw(screen)
+        # Draw all items that are in the group.
+        for item in drawable:
+            item.draw(screen)
 
         # Refresh the screen
         pygame.display.flip()
         
         # Pause for 1/60 of a second.
         # The .tick() method returns the amount in milliseconds since the
-        # last time .tick() was called. Convert it into seconds.
+        # last time .tick() was called. Convert that value into seconds.
         dt = clock.tick(60) / 1000
 
-        # Update the player
-        for player in drawable:
-            player.update(dt)
+        # Update all items that are in the group.
+        for item in updatable:
+            item.update(dt)
 
 if __name__ == "__main__":
     main()
