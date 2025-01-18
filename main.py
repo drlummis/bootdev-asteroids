@@ -32,6 +32,7 @@ def main():
         # Fill screen with solid black
         screen.fill("black")
 
+        # Draw the player
         player.draw(screen)
 
         # Refresh the screen
@@ -41,6 +42,9 @@ def main():
         # The .tick() method returns the amount in milliseconds since the
         # last time .tick() was called. Convert it into seconds.
         dt = clock.tick(60) / 1000
+        
+        # Update the player
+        player.update(dt)
 
 
 if __name__ == "__main__":
