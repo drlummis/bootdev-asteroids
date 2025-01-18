@@ -39,11 +39,19 @@ def main():
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
 
-    while True:
+    game_over = False
+    while not game_over:
         # Event loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                game_over = True
+                break
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    game_over = True
+                    break
+        if game_over:
+            break
 
         # Fill screen with solid black
         screen.fill("black")
@@ -63,6 +71,14 @@ def main():
         # Update all items that are in the group.
         for item in updatable:
             item.update(dt)
+
+        for item in asteroids:
+            if item.collision(player):
+                print("Game over!")
+                game_over = True
+                break
+
+    pygame.quit()
 
 if __name__ == "__main__":
     main()
