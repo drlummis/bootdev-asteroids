@@ -81,8 +81,8 @@ def main():
             for shot in shots:
                 collision = item.collision(shot)
                 if collision:
-                    item.kill()
                     shot.kill()
+                    item.split()
                     break
             if collision:
                 break
