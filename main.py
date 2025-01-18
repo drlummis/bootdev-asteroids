@@ -19,9 +19,14 @@ def main():
     clock = pygame.time.Clock()
     dt = 0   # delta time
 
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
+    updatable.add(player)
+    drawable.add(player)
 
     while True:
         # Event loop
@@ -33,7 +38,8 @@ def main():
         screen.fill("black")
 
         # Draw the player
-        player.draw(screen)
+        for player in updatable:
+            player.draw(screen)
 
         # Refresh the screen
         pygame.display.flip()
@@ -42,10 +48,10 @@ def main():
         # The .tick() method returns the amount in milliseconds since the
         # last time .tick() was called. Convert it into seconds.
         dt = clock.tick(60) / 1000
-        
-        # Update the player
-        player.update(dt)
 
+        # Update the player
+        for player in drawable:
+            player.update(dt)
 
 if __name__ == "__main__":
     main()
